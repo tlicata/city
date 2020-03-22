@@ -1,16 +1,22 @@
-Like SimCity, but for Lockport.
+Like SimCity, but for Lockport (or any town).
 
 * What should it do?
 
-- model traffic & roads
-- model police & fire & schools
-- model neighborhoods
+- model traffic & roads & signals
+- model neighborhoods & real-estate
+- model police & crime
+- model fire & emergency
+- model schools
 - model taxes & costs
-- model local government
+- model local government & bonds
+- be fun
+- model up and coming events?
+- model skatepark?
 
 * But, how?
 
-- Google maps? Generate own map (tiles)?
+- Google maps? Generate own map (tiles)? Minecraft?
+- User-edited, via pull requests.
 - Cartoonish, SimCity-like interface? I can't art. Can Paul?
 - Integrate with local government? Wards?
 - Start small, only part of city? Downtown? Build out.
@@ -20,13 +26,25 @@ Like SimCity, but for Lockport.
 - Simulations need distributed computing?
   + Or can all be done on client (browser?)
   + Just drawing on client will be expensive...
+  + erlang backend + javascript frontend
+  + clojure + cljs? (shared code)
+  + write the whole thing in javascript
+    + nodejs deployments
 
 - Model vs View
 - It's a map
 - It's SimCity
-- Needs timescrubbing
+- Needs timeline / scrubbing
 - It's almost like the financial/charting projection work
 - It relates to Kman's map coloring work
 - Erlang, like distributed model trains
 - Queryable
 - Fast
+
+** Why Erlang?
+ I don't need real-time?
+
+ "New hardware is increasing parallel, so new programming languages must support
+ concurrency or they will die."
+
+ Program multi-core. Multi-computer.
