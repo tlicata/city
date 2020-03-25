@@ -4,7 +4,7 @@
 
 start() ->
     spawn(fun() ->
-                  Ref = monitor(process, Pid = spawn(city, simulate, [])),
+                  {Pid, Ref} = spawn_monitor(city, simulate, []),
                   register(citysim, Pid),
                   receive
                       {'DOWN', Ref, process, Pid, Why} ->
