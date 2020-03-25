@@ -1,17 +1,17 @@
 -module(city).
 
--export([send/1, send/2, start/0, start_and_watch/0, simulate/0]).
+-export([send/1, start/0, simulate/0]).
 
-start_and_watch() ->
-    Ref = monitor(process, Pid = spawn(city, simulate, [])),
-    register(citysim, Pid),
-    receive
-        {'DOWN', Ref, process, Pid, Why} ->
-            io:format("Restarting simulation ~p which failed due to ~s reasons~n", [Pid, Why]),
-            start()
-    end.
 start() ->
-    spawn(city, start_and_watch, []).
+    spawn(fun() ->
+                  Ref = monitor(process, Pid = spawn(city, simulate, [])),
+                  register(citysim, Pid),
+                  receive
+                      {'DOWN', Ref, process, Pid, Why} ->
+                          io:format("Restarting simulation ~p which failed due to ~s reasons~n", [Pid, Why]),
+                          start()
+                  end
+          end).
 
 send(Message) ->
     send(whereis(citysim), Message).
