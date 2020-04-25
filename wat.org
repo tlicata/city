@@ -19,9 +19,10 @@ Like SimCity, but for Lockport (or any town).
 - User-edited, via pull requests.
 - Cartoonish, SimCity-like interface? I can't art. Can Paul?
 - Integrate with local government? Wards?
+- Integrate with real-estate sites?
 - Start small, only part of city? Downtown? Build out.
 
-* Implementation...
+* Implementation
 
 - Simulations need distributed computing?
   + Or can all be done on client (browser?)
