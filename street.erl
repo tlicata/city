@@ -1,27 +1,32 @@
 -module(street).
 
--export([get_street_data/1, list_streets/0, run_services/0, init/1, start/1]).
+-export([fetch_streets/1, fetch_street/2, parse_streets/1, list_streets/1, init/2, start/2]).
 
-start(Street) ->
-    spawn(street, init, [Street]).
+start(City, Street) ->
+    spawn(street, init, [City, Street]).
 
-init(Street) ->
-    io:format("Hello, my name is ~s.~n", [Street]),
+init(City, Street) ->
+    io:format("Hello, my name is ~s, ~s.~n", [Street, City]),
     io:format(" -> Calling API...~n"),
-    {ok, Response} = get_street_data(Street),
-    io:format(" -> Response is ~s~n", [Response]).
+    StreetData = fetch_street(City, Street),
+    io:format(" -> StreetData is ~s~n", [StreetData]).
 
-list_streets() ->
-    {ok, Binary} = file:read_file("streets.txt"),
-    string:split(binary:bin_to_list(Binary), "\n", all).
+%% list_streets() ->
+%%     {ok, Binary} = file:read_file("streets.txt"),
+%%     string:split(binary:bin_to_list(Binary), "\n", all).
 
-get_street_data(Street) ->
-    EncodedStreet = re:replace(Street, " ", "+", [global, {return, list}]),
-    Params = io_lib:format("swis=290900&debug=bdebug&streetlookup=yes&address2=~s", [EncodedStreet]),
-    Url = io_lib:format("https://cityoflockport.oarsystem.com/assessment/pcllist.asp?~s", [Params]),
-    httpc:request(Url).
+list_streets(City) ->
+    parse_streets(fetch_streets(City)).
 
-%% Might need to run:
-run_services() ->
-    inets:start(),
-    ssl:start().
+parse_streets(HtmlBinary) ->
+    {match, Captured} = re:run(HtmlBinary, "<option value=\"([^\"]+)", [global, {capture, all_but_first, list}]),
+    [Street || [Street] <- Captured].
+
+fetch_streets(City) ->
+    Url = oars:street_list_url(City),
+    oars:from_url(Url).
+
+fetch_street(City, Street) ->
+    Url = oars:street_url(City, Street),
+    oars:from_url(Url).
+
