@@ -49,3 +49,28 @@ Like SimCity, but for Lockport (or any town).
  concurrency or they will die."
 
  Program multi-core. Multi-computer.
+* OARSYSTEM data
+** use mkgeo library
+*** ./scrape-oars fetch
+Traceback (most recent call last):
+  File "./scrape-oars", line 7, in <module>
+    import requests
+ImportError: No module named requests
+Need PIP
+pip install requests?
+*** OSError: [Errno 2] No such file or directory: 'data/cityoflockport/oars-2019'
+mkdir -p data/cityoflockport/oars-2019
+*** AttributeError: 'NoneType' object has no attribute 'findAll'
+$ python bin/scrape-oars ls-streets
+/home/tim/.local/lib/python2.7/site-packages/requests/__init__.py:83: RequestsDependencyWarning: Old version of cryptography ([1, 2, 3]) may cause slowdown.
+  warnings.warn(warning, RequestsDependencyWarning)
+2020-04-29 19:38:35 fetching url http://www.cityoflockport.oarsystem.com/assessment/main.asp?swis=140200;	2020-04-29 19:38:36 503
+2020-04-29 19:38:36 parsing street list
+Traceback (most recent call last):
+  File "bin/scrape-oars", line 293, in <module>
+    crawl(STREET_CRAWL, 1, offset)
+  File "bin/scrape-oars", line 243, in crawl
+    for i,street in enumerate(get_street_list()[offset::iterator]):
+  File "bin/scrape-oars", line 235, in get_street_list
+    for option in soup.find('select').findAll('option'):
+AttributeError: 'NoneType' object has no attribute 'findAll'
