@@ -18,8 +18,8 @@ init(City, Street) ->
 list_streets(City) ->
     parse_streets(fetch_streets(City)).
 
-parse_streets(HtmlBinary) ->
-    {match, Captured} = re:run(HtmlBinary, "<option value=\"([^\"]+)", [global, {capture, all_but_first, list}]),
+parse_streets(Html) ->
+    {match, Captured} = re:run(Html, "<option value=\"([^\"]+)", [global, {capture, all_but_first, list}]),
     [Street || [Street] <- Captured].
 
 fetch_streets(City) ->
