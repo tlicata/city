@@ -12,7 +12,14 @@ init(City, Street) ->
     io:format(" -> StreetData is ~s~n", [StreetData]).
 
 list_streets(City) ->
-    parse_streets(fetch_streets(City)).
+    case db:get_streets(City) of
+        missing ->
+            Streets = parse_streets(fetch_streets(City)),
+            db:set_streets(City, Streets),
+            Streets;
+        Streets ->
+            Streets
+    end.
 
 parse_streets(Html) ->
     {match, Captured} = re:run(Html, "<option value=\"([^\"]+)", [global, {capture, all_but_first, list}]),

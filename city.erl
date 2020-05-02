@@ -4,12 +4,13 @@
 
 start(City) ->
     spawn(fun() ->
+                  db:open(),
                   {Pid, Ref} = spawn_monitor(city, simulate, [City]),
                   register(citysim, Pid),
                   receive
                       {'DOWN', Ref, process, Pid, Why} ->
-                          io:format("Restarting simulation ~p which failed due to ~s reasons~n", [Pid, Why]),
-                          start(City)
+                          io:format("Exiting simulation ~p which failed due to ~s reasons~n", [Pid, Why]),
+                          db:close()
                   end
           end).
 
