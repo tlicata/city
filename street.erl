@@ -11,10 +11,6 @@ init(City, Street) ->
     StreetData = fetch_street(City, Street),
     io:format(" -> StreetData is ~s~n", [StreetData]).
 
-%% list_streets() ->
-%%     {ok, Binary} = file:read_file("streets.txt"),
-%%     string:split(binary:bin_to_list(Binary), "\n", all).
-
 list_streets(City) ->
     parse_streets(fetch_streets(City)).
 
