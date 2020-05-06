@@ -1,26 +1,27 @@
 -module(db).
 
--export([open/0, close/0, get_streets/1, set_streets/2]).
+-export([open/1, close/1, get_streets/1, set_streets/2]).
 
-open() ->
-    case dets:open_file(?MODULE, [{file, "database.dets"}]) of
-        {ok, ?MODULE} ->
-            io:format("opened dets file~n"),
+open(City) ->
+    Filename = io_lib:format("~s.dets", [City]),
+    case dets:open_file(City, [{file, Filename}]) of
+        {ok, City} ->
+            io:format("opened ~s file~n", [Filename]),
             true;
         {error, Reason} ->
-            io:format("error opening dets file: ~p~n", [Reason]),
-            exit({eDetsOpen, "database.dets", Reason})
+            io:format("error opening ~s file: ~p~n", [Filename, Reason]),
+            exit({eDetsOpen, Filename, Reason})
         end.
 
-close() ->
-    io:format("closing dets file~n"),
-    dets:close(?MODULE).
+close(City) ->
+    io:format("closing dets file for ~s~n", [City]),
+    dets:close(City).
 
 get_streets(City) ->
-    case dets:lookup(?MODULE, City) of
+    case dets:lookup(City, streets) of
         [] -> missing;
-        [{City, Streets}] -> Streets
+        [{streets, Streets}] -> Streets
     end.
 
 set_streets(City, Streets) ->
-    dets:insert(?MODULE, {City, Streets}).
+    dets:insert(City, {streets, Streets}).
