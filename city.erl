@@ -35,13 +35,7 @@ simulate(City) ->
 loop(City) ->
     receive
         {From, hey} ->
-            From ! {self(), io:format("Hey, man, from ~s~n", [City])};
-        {From, "what's up"} ->
-            From ! {self(), "Not much. Chilling"};
-        {From, "What's this river that I'm in?"} ->
-            From ! {self(), "New Orleans is sinking, man, and I don't want to swim"};
-        {From, "Goodnight"} ->
-            From ! {self(), "Goodnight Goodnight"};
+            From ! {self(), io:format("Hey, from ~s~n", [City])};
         {From, list_streets} ->
             From ! {self(), string:join(street:list_streets(City), "\n")};
         {From, _} ->
