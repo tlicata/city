@@ -6,7 +6,7 @@ start(City, Street) ->
     spawn(street, init, [City, Street]).
 
 init(City, Street) ->
-    io:format("Hello, my name is ~s, ~s.~n", [Street, City]),
+    io:format("Hello, my name is ~s of ~s.~n", [Street, City]),
     io:format(" -> Calling API...~n"),
     StreetData = fetch_street(City, Street),
     io:format(" -> StreetData is ~s~n", [StreetData]).

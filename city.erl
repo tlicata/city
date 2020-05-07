@@ -1,6 +1,6 @@
 -module(city).
 
--export([populate_streets/0, send/1, start/1, simulate/1]).
+-export([populate_streets/1, send/1, start/1, simulate/1]).
 
 start(City) ->
     spawn(fun() ->
@@ -24,8 +24,8 @@ send(Pid, Message) ->
             "No response received :("
     end.
 
-populate_streets() ->
-    [street:start(Street) || Street <- street:list_streets(), string:slice(Street, 0, 2) == "AD"].
+populate_streets(City) ->
+    [street:start(City, Street) || Street <- street:list_streets(City), string:slice(Street, 0, 2) == "AD"].
 
 simulate(City) ->
     Start = erlang:time(),
