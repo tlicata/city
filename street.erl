@@ -23,7 +23,7 @@ list_streets(City) ->
 
 parse_streets(Html) ->
     {match, Captured} = re:run(Html, "<option value=\"([^\"]+)", [global, {capture, all_but_first, list}]),
-    [Street || [Street] <- Captured].
+    [Street || [Street] <- lists:usort(Captured)].
 
 fetch_streets(City) ->
     Url = oars:street_list_url(City),
