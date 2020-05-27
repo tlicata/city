@@ -1,6 +1,6 @@
 -module(db).
 
--export([open/1, close/1, get_streets/1, set_streets/2]).
+-export([open/1, close/1, get_addresses/2, get_streets/1, remove_addresses/2, set_addresses/3, set_streets/2]).
 
 open(City) ->
     Filename = io_lib:format("~s.dets", [City]),
@@ -25,3 +25,15 @@ get_streets(City) ->
 
 set_streets(City, Streets) ->
     dets:insert(City, {streets, Streets}).
+
+get_addresses(City, Street) ->
+    case dets:lookup(City, Street) of
+        [] -> missing;
+        [{Street, Addresses}] -> Addresses
+    end.
+
+set_addresses(City, Street, Addresses) ->
+    dets:insert(City, {Street, Addresses}).
+
+remove_addresses(City, Street) ->
+    dets:delete(City, Street).

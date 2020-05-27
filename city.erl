@@ -4,6 +4,7 @@
 
 start(City) ->
     spawn(fun() ->
+                  oars:run_services(),
                   db:open(City),
                   {Pid, Ref} = spawn_monitor(city, simulate, [City]),
                   register(citysim, Pid),
@@ -38,6 +39,9 @@ loop(City) ->
             From ! {self(), io:format("Hey, from ~s~n", [City])};
         {From, list_streets} ->
             From ! {self(), string:join(street:list_streets(City), "\n")};
+        {From, populate_streets} ->
+            populate_streets(City),
+            From ! {self(), streets_populated};
         {From, _} ->
             From ! {self(), "I don't understand..."};
         Any ->

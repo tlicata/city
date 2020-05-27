@@ -1,6 +1,6 @@
 -module(oars).
 
--export([street_list_url/1, street_url/2, from_url/1, run_services/0]).
+-export([street_list_url/1, street_url/2, street_url/3, from_url/1, run_services/0, encode_street/1]).
 
 -ifdef(online_flag).
 -define(http_request(Url), httpc:request(Url)).
@@ -16,6 +16,9 @@ street_list_url(City) ->
 
 street_url(City, Street) ->
     Params = io_lib:format("swis=290900&debug=bdebug&streetlookup=yes&address2=~s", [encode_street(Street)]),
+    io_lib:format("~s/assessment/pcllist.asp?~s", [base_url(City), Params]).
+street_url(City, Street, Page) ->
+    Params = io_lib:format("swis=290900&address2=~s&page=~p", [encode_street(Street), Page]),
     io_lib:format("~s/assessment/pcllist.asp?~s", [base_url(City), Params]).
 
 from_url(Url) ->
