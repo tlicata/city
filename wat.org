@@ -74,3 +74,16 @@ Traceback (most recent call last):
   File "bin/scrape-oars", line 235, in get_street_list
     for option in soup.find('select').findAll('option'):
 AttributeError: 'NoneType' object has no attribute 'findAll'
+** bail, and write it all in erlang
+- didn't have a python env setup (pip, packages, filesystem/mkdir)
+- you can call out to python from erlang, but, you need the dependencies?
+- erlang wants to be a running, always on, system of processes and mkgeo is
+  meant to be a script that's run then completes.
+* Tech debt
+** Supervisor for request throttling
+In oars.erl, from_url wants to send a message to the one process handling http
+requests to the oars system, so that we do not send hundreds of requests at
+once. That one process is started in oars:run_services(), but it is not
+linked/monitored, so if it errors, it will die and not be restarted. I think
+this should be turned into a supervisor & worker configuration with automatic
+restarts, but I think this is good enough for now...
