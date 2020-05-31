@@ -26,7 +26,7 @@ send(Pid, Message) ->
     end.
 
 populate_streets(City) ->
-    [street:start(City, Street) || Street <- street:list_streets(City), string:slice(Street, 0, 2) == "AD"].
+    [street:start(City, Street) || Street <- street:list_streets(City)].
 
 simulate(City) ->
     Start = erlang:time(),
