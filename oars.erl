@@ -1,6 +1,6 @@
 -module(oars).
 
--export([street_list_url/1, street_url/2, street_url/3, fetcher/0, from_url/1, run_services/0, encode_street/1]).
+-export([street_list_url/1, street_url/2, street_url/3, fetcher/1, fetcher_supervisor/0, from_url/1, run_services/0, encode_street/1]).
 
 -ifdef(online_flag).
 -define(http_request(Url), httpc:request(Url)).
@@ -25,7 +25,7 @@ from_url(Url) ->
     Pid = whereis(oars),
     Pid ! {self(), request, Url},
     receive
-        {Pid, Response} ->
+        {Pid, ok, Response} ->
             {{_Version, 200, _ReasonPhrase}, _Headers, Body} = Response,
             Body
     end.
@@ -33,17 +33,29 @@ from_url(Url) ->
 encode_street(Street) ->
     re:replace(Street, " ", "+", [global, {return, list}]).
 
-fetcher() ->
+fetcher_supervisor() ->
+    {Pid, Ref} = spawn_monitor(oars, fetcher, [self()]),
     receive
         {From, request, Url} ->
+            Pid ! {self(), request, Url},
+            receive
+                {Pid, ok, Response} ->
+                    From ! {self(), ok, Response};
+                {'DOWN', Ref, process, Pid, Why} ->
+                    io:format("Fetching process died due to ~p.~n~n", [Why])
+            end
+    end,
+    fetcher_supervisor().
+
+fetcher(SuperPid) ->
+    receive
+        {SuperPid, request, Url} ->
             {ok, Response} = ?http_request(Url),
             io:format("ONLINE MODE! Request made to: ~s~n", [Url]),
-            From ! {self(), Response};
-        _Unknown -> true
-    end,
-    fetcher().
+            SuperPid ! {self(), ok, Response}
+    end.
 
 run_services() ->
-    register(oars, spawn(oars, fetcher, [])),
+    register(oars, spawn(oars, fetcher_supervisor, [])),
     inets:start(),
     ssl:start().
