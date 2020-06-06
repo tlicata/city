@@ -7,8 +7,8 @@ start(City, Street) ->
 
 init(City, Street) ->
     io:format("Hello, my name is ~s of ~s (~p).~n", [Street, City, self()]),
-    _Addresses = list_addresses(City, Street),
-    io:format("Addresses are available for ~s of ~s (~p).~n", [Street, City, self()]).
+    Addresses = list_addresses(City, Street),
+    [address:start(Address) || Address <- Addresses].
 
 list_addresses(City, Street) ->
     case db:get_addresses(City, Street) of

@@ -42,7 +42,7 @@ fetcher_supervisor() ->
                 {Pid, ok, Response} ->
                     From ! {self(), ok, Response};
                 {'DOWN', Ref, process, Pid, Why} ->
-                    io:format("Fetching process died due to ~p.~n~n", [Why])
+                    io:format("Fetching process died due to ~p.~nRestarting.~n", [Why])
             end
     end,
     fetcher_supervisor().
