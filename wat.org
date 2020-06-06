@@ -83,7 +83,6 @@ AttributeError: 'NoneType' object has no attribute 'findAll'
 ** Supervisor for request throttling
 In oars.erl, from_url wants to send a message to the one process handling http
 requests to the oars system, so that we do not send hundreds of requests at
-once. That one process is started in oars:run_services(), but it is not
-linked/monitored, so if it errors, it will die and not be restarted. I think
-this should be turned into a supervisor & worker configuration with automatic
-restarts, but I think this is good enough for now...
+once. That one process is started in oars:run_services() and will be restarted
+if it fails. However, I think this should be turned into a gen_supervisor &
+worker configuration.
