@@ -1,11 +1,11 @@
 This is an Erlang project.
 
-Some ideas and explanations are in [wat.org][wat.org].
+Some ideas and explanations are in [wat.org](wat.org).
 
 To get it running:
 
 1. Install Erlang.
-    Perhaps with [kerl][https://github.com/kerl/kerl].
+    Perhaps with [kerl](https://github.com/kerl/kerl).
 2. Run Erlang.
     ```sh
     $ erl
