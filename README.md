@@ -1,4 +1,4 @@
-This is an Erlang project.
+This is an experimental project trying to simulate _something_ about a city.
 
 Some ideas and explanations are in [wat.org](wat.org).
 
