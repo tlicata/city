@@ -1,6 +1,6 @@
 -module(oars).
 
--export([street_list_url/1, street_url/2, street_url/3, fetcher/1, fetcher_supervisor/0, from_url/1, run_services/0, encode_street/1]).
+-export([base_url/1, address_url/2, street_list_url/1, street_url/2, street_url/3, fetcher/1, fetcher_supervisor/0, from_url/1, run_services/0, encode_street/1]).
 
 -ifdef(online_flag).
 -define(http_request(Url), httpc:request(Url)).
@@ -20,6 +20,8 @@ street_url(City, Street) ->
 street_url(City, Street, Page) ->
     Params = io_lib:format("swis=290900&address2=~s&page=~p", [encode_street(Street), Page]),
     io_lib:format("~s/assessment/pcllist.asp?~s", [base_url(City), Params]).
+address_url(City, PropertyUrl) ->
+    base_url(City) ++ "/assessment/" ++ PropertyUrl.
 
 from_url(Url) ->
     Pid = whereis(oars),
