@@ -1,11 +1,11 @@
 -module(address).
 
--export([start/1, init/1]).
+-export([start/2, init/2]).
 
-start(Address) ->
-    spawn(address, init, [Address]).
+start(City, Address) ->
+    spawn(address, init, [City, Address]).
 
-init(Address) ->
+init(City, Address) ->
     {Addr, _Url, Sbl, _LotSize, _PropType, _BuildingStyle, YearBuilt, _Sqft, _BedsBathsFire} = Address,
     io:format("  My address is '~s', my Sbl is ~s, and I was built in ~p. (~p)~n", [Addr, Sbl, parse_year(YearBuilt), self()]).
 

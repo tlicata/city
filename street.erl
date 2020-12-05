@@ -8,7 +8,7 @@ start(City, Street) ->
 init(City, Street) ->
     io:format("Hello, my name is ~s of ~s (~p).~n", [Street, City, self()]),
     Addresses = list_addresses(City, Street),
-    [address:start(Address) || Address <- Addresses].
+    [address:start(City, Address) || Address <- Addresses].
 
 list_addresses(City, Street) ->
     case db:get_addresses(City, Street) of
