@@ -20,6 +20,11 @@ Like SimCity, but for Lockport (or any town).
 - Cartoonish, SimCity-like interface? I can't art. Can Paul?
 - Integrate with local government? Wards?
 - Integrate with real-estate sites?
+  + https://www.niagaracounty.com/realproperty/Resources/Real-Estate-Transactions
+  + https://gis.ny.gov/gisdata/inventories/details.cfm?DSID=298
+  + https://gis.ny.gov/gisdata/inventories/details.cfm?DSID=1158
+- Read up on Strong Towns
+  + https://www.strongtowns.org/journal/2020/8/10/i-did-the-math-on-my-towns-cul-de-sacs
 - Start small, only part of city? Downtown? Build out.
 
 * Implementation
