@@ -84,6 +84,38 @@ AttributeError: 'NoneType' object has no attribute 'findAll'
 - you can call out to python from erlang, but, you need the dependencies?
 - erlang wants to be a running, always on, system of processes and mkgeo is
   meant to be a script that's run then completes.
+* TODO
+** Webserver
+- Cowboy
+  + https://ninenines.eu/docs/en/cowboy/2.6/guide/
+  + https://ninenines.eu/docs/en/cowboy/2.6/guide/introduction/
+- Websockets?
+  + https://github.com/sockjs/sockjs-client
+  + https://github.com/sockjs/sockjs-erlang
+Edit: This section is why I hate Erlang, and programming, and computers.
+** Build tools
+- Makefile?
+*** DONE Rebar?
+https://github.com/erlang/rebar3
+"Rebar3 is also a self-contained Erlang script. It is easy to distribute or embed directly in a project."
+Install from source:
+$ git clone https://github.com/erlang/rebar3.git
+$ cd rebar3
+$ ./bootstrap
+Outputs a ./rebar3 escript file
+https://rebar3.org/docs/getting-started/
+"Installed" a non-escript version with:
+$ ./rebar3 local install
+===> Extracting rebar3 libs to /home/tim/.cache/rebar3/vsns/3.14.2+build.4880.ref3ef4f08/lib...
+===> Writing rebar3 run script /home/tim/.cache/rebar3/bin/rebar3...
+===> Add to $PATH for use: export PATH=/home/tim/.cache/rebar3/bin:$PATH
+and added to $PATH as mentioned
+Removed the rebar3 escript as mentioned in the getting started guide
+** Get a landing page up
+- Easy URL
+- Describe the project
+- Way to get in touch (email)
+- Link to source code
 * Tech debt
 ** Supervisor for request throttling
 In oars.erl, from_url wants to send a message to the one process handling http
