@@ -101,20 +101,20 @@ AttributeError: 'NoneType' object has no attribute 'findAll'
 - https://github.com/erlang/rebar3
 "Rebar3 is also a self-contained Erlang script. It is easy to distribute or embed directly in a project."
 **** Install from source:
-
-    $ git clone https://github.com/erlang/rebar3.git
-    $ cd rebar3
-    $ ./bootstrap
-
+#+begin_src sh
+$ git clone https://github.com/erlang/rebar3.git
+$ cd rebar3
+$ ./bootstrap
+#+end_src
 Outputs a ./rebar3 escript file
 https://rebar3.org/docs/getting-started/
 **** "Installed" a non-escript version with:
-
-    $ ./rebar3 local install
-    ===> Extracting rebar3 libs to /home/tim/.cache/rebar3/vsns/3.14.2+build.4880.ref3ef4f08/lib...
-    ===> Writing rebar3 run script /home/tim/.cache/rebar3/bin/rebar3...
-    ===> Add to $PATH for use: export PATH=/home/tim/.cache/rebar3/bin:$PATH
-
+#+begin_src sh
+$ ./rebar3 local install
+===> Extracting rebar3 libs to /home/tim/.cache/rebar3/vsns/3.14.2+build.4880.ref3ef4f08/lib...
+===> Writing rebar3 run script /home/tim/.cache/rebar3/bin/rebar3...
+===> Add to $PATH for use: export PATH=/home/tim/.cache/rebar3/bin:$PATH
+#+end_src
 - and added to $PATH as mentioned
 - Removed the rebar3 escript as mentioned in the getting started guide
 rebar expects OTP project structure...
@@ -161,10 +161,13 @@ I wondered about how to install Cowboy under TODO's [[Webserver]].
   - After adding Cowboy as a dep and in the `relx` section of rebar.config,
     running
 
+        #+begin_src sh
         > rebar3 release
+        #+end_src
 
     will include the Cowboy and it's dependency in the release:
 
+        #+begin_src sh
         > ls -al _build/default/rel/myrel/lib/
         lrwxrwxrwx 1 tim tim   34 Jan  2 21:21 asn1-5.0.9 -> /home/tim/kerl/22.2/lib/asn1-5.0.9
         lrwxrwxrwx 1 tim tim   57 Jan  2 21:21 cowboy-2.8.0 -> /home/tim/Code/rebar-test/myrel/_build/default/lib/cowboy
@@ -177,6 +180,7 @@ I wondered about how to install Cowboy under TODO's [[Webserver]].
         lrwxrwxrwx 1 tim tim   34 Jan  2 21:21 sasl-3.4.1 -> /home/tim/kerl/22.2/lib/sasl-3.4.1
         lrwxrwxrwx 1 tim tim   31 Jan  2 21:21 ssl-9.5 -> /home/tim/kerl/22.2/lib/ssl-9.5
         lrwxrwxrwx 1 tim tim   35 Jan  2 21:21 stdlib-3.11 -> /home/tim/kerl/22.2/lib/stdlib-3.11
+        #+end_src
    - For a production release:
      > rebar3 as prod release
 ** Get a landing page up
