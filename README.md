@@ -18,3 +18,16 @@ To get it running:
     ```sh
     2> city:start(cityoflockport).
     ```
+
+To get it running:
+
+2. Install Rebar3.
+    Perhaps by following the instructions on [Adopting Erlang](https://adoptingerlang.org/docs/development/setup/).
+3. Build the release.
+    ```sh
+    $ rebar3 release
+    ```
+4. Run it.
+   ```sh
+   ./_build/default/rel/city/bin/city foreground
+   ```
