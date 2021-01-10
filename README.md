@@ -19,7 +19,8 @@ To get it running:
     2> city:start(cityoflockport).
     ```
 
-To get it running:
+I'm working on converting this project to standard OTP structure and to use the
+`rebar3` build tool. The additional instructions might include:
 
 2. Install Rebar3.
     Perhaps by following the instructions on [Adopting Erlang](https://adoptingerlang.org/docs/development/setup/).
