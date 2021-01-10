@@ -1,6 +1,15 @@
 -module(city).
 
--export([populate_streets/1, send/1, start/1, simulate/1]).
+-export([init/1, populate_streets/1, send/1, start/0, start/1, simulate/1]).
+
+start() ->
+    gen_server:start_link(?MODULE, [], []).
+
+init([]) ->
+    %% Ignore what OTP asks us to do...
+    io:format("Hello, world!~n"),
+    %% shut down the VM without error
+    halt(0).
 
 start(City) ->
     spawn(fun() ->
