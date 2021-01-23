@@ -1,6 +1,6 @@
 -module(oars).
 
--export([base_url/1, address_url/2, street_list_url/1, street_url/2, street_url/3, fetcher/1, fetcher_supervisor/0, from_url/1, run_services/0, encode_street/1]).
+-export([base_url/1, address_url/2, street_list_url/1, street_url/2, street_url/3, fetcher/1, fetcher_supervisor/0, from_url/1, encode_street/1]).
 
 -ifdef(online_flag).
 -define(http_request(Url), httpc:request(Url)).
@@ -56,8 +56,3 @@ fetcher(SuperPid) ->
             io:format("ONLINE MODE! Request made to: ~s~n", [Url]),
             SuperPid ! {self(), ok, Response}
     end.
-
-run_services() ->
-    register(oars, spawn(oars, fetcher_supervisor, [])),
-    inets:start(),
-    ssl:start().

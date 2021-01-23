@@ -1,5 +1,5 @@
 {application, city,
- [{description, "An OTP application"},
+ [{description, "The city simulator"},
   {vsn, "0.1.0"},
   {registered, []},
   {mod, {city_app, []}},
