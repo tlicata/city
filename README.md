@@ -32,3 +32,11 @@ I'm working on converting this project to standard OTP structure and to use the
    ```sh
    ./_build/default/rel/city/bin/city foreground
    ```
+
+It also seems like the release process can be skipped for development purposes:
+
+```sh
+$ rebar3 shell
+1> city:list_streets().
+6
+```
