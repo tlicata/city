@@ -1,59 +1,45 @@
 -module(city).
 
--export([init/1, populate_streets/1, send/1, start/0, start/1, simulate/1]).
+-behavior(gen_server).
 
-start() ->
-    gen_server:start_link(?MODULE, [], []).
+-export([hey/0, list_streets/0, populate_streets/0, start_link/1]).
 
-init([]) ->
-    %% Ignore what OTP asks us to do...
-    io:format("Hello, world!~n"),
-    %% shut down the VM without error
-    halt(0).
+%% gen_server callbacks
+-export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
-start(City) ->
-    spawn(fun() ->
-                  oars:run_services(),
-                  db:open(City),
-                  {Pid, Ref} = spawn_monitor(city, simulate, [City]),
-                  register(citysim, Pid),
-                  receive
-                      {'DOWN', Ref, process, Pid, Why} ->
-                          io:format("Exiting simulation ~p which failed due to ~s reasons~n", [Pid, Why]),
-                          db:close(City)
-                  end
-          end).
+start_link(City) ->
+    gen_server:start_link({local, ?MODULE}, ?MODULE, [City], []).
 
-send(Message) ->
-    send(whereis(citysim), Message).
-send(Pid, Message) ->
-    Pid ! {self(), Message},
-    receive
-        {Pid, Response} -> Response
-    after 5000 ->
-            "No response received :("
-    end.
+hey() ->
+    gen_server:call(?MODULE, hey).
+list_streets() ->
+    gen_server:call(?MODULE, list_streets).
+populate_streets() ->
+    gen_server:call(?MODULE, populate_streets).
 
-populate_streets(City) ->
-    [street:start(City, Street) || Street <- street:list_streets(City)].
+init([City]) ->
+    process_flag(trap_exit, true),
+    io:format("~p starting~n", [?MODULE]),
+    db:open(City),
+    {ok, City}.
 
-simulate(City) ->
-    Start = erlang:time(),
-    io:format("City simulation for ~s (~p) started at ~p~n", [City, self(), Start]),
-    loop(City).
+handle_call(hey, _From, City) ->
+    {reply, io:format("Hey, from ~s~n", [City]), City};
+handle_call(list_streets, _From, City) ->
+    {reply, string:join(street:list_streets(City), "\n"), City};
+handle_call(populate_streets, _From, City) ->
+    [street:start(City, Street) || Street <- street:list_streets(City)],
+    {reply, streets_populated, City};
+handle_call(_Any, _From, City) ->
+    {reply, "I don't understand...", City}.
 
-loop(City) ->
-    receive
-        {From, hey} ->
-            From ! {self(), io:format("Hey, from ~s~n", [City])};
-        {From, list_streets} ->
-            From ! {self(), string:join(street:list_streets(City), "\n")};
-        {From, populate_streets} ->
-            populate_streets(City),
-            From ! {self(), streets_populated};
-        {From, _} ->
-            From ! {self(), "I don't understand..."};
-        Any ->
-            io:format("Unknown message received: ~s~n", [Any])
-    end,
-    loop(City).
+handle_cast(_Msg, N) -> {noreply, N}.
+handle_info(_Info, N) -> {noreply, N}.
+
+terminate(Reason, City) ->
+    io:format("~p module for ~s stopping because ~s~n", [?MODULE, City, Reason]),
+    db:close(City),
+    ok.
+
+code_change(_OldVsn, N, _Extra) ->
+    {ok, N}.

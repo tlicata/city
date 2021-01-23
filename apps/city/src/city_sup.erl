@@ -26,10 +26,10 @@ start_link() ->
 %%                  type => worker(),       % optional
 %%                  modules => modules()}   % optional
 init([]) ->
-    SupFlags = #{strategy => one_for_all,
-                 intensity => 3,
+    SupFlags = #{strategy => one_for_one,
+                 intensity => 3,  %% 3 failures per 10 seconds
                  period => 10},
-    ChildSpecs = [#{id => city, start => {area_server, start_link, []}}],
+    ChildSpecs = [#{id => city, start => {city, start_link, [cityoflockport]}}],
     {ok, {SupFlags, ChildSpecs}}.
 
 %% internal functions
