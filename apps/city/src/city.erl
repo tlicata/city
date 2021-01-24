@@ -36,8 +36,8 @@ handle_call(_Any, _From, City) ->
 handle_cast(_Msg, N) -> {noreply, N}.
 handle_info(_Info, N) -> {noreply, N}.
 
-terminate(Reason, City) ->
-    io:format("~p module for ~s stopping because ~s~n", [?MODULE, City, Reason]),
+terminate(_Reason, City) ->
+    io:format("~p module for ~s stopping~n", [?MODULE, City]),
     db:close(City),
     ok.
 
