@@ -195,3 +195,5 @@ requests to the oars system, so that we do not send hundreds of requests at
 once. That one process is started in oars:run_services() and will be restarted
 if it fails. However, I think this should be turned into a gen_supervisor &
 worker configuration.
+
+Edit: fixed by converting oars.erl to implement gen_server behavior.

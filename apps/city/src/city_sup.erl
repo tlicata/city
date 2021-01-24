@@ -29,7 +29,10 @@ init([]) ->
     SupFlags = #{strategy => one_for_one,
                  intensity => 3,  %% 3 failures per 10 seconds
                  period => 10},
-    ChildSpecs = [#{id => city, start => {city, start_link, [cityoflockport]}}],
+    ChildSpecs = [
+                  #{id => city, start => {city, start_link, [cityoflockport]}},
+                  #{id => oars, start => {oars, start_link, []}}
+                 ],
     {ok, {SupFlags, ChildSpecs}}.
 
 %% internal functions
