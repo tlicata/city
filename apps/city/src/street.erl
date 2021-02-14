@@ -6,7 +6,7 @@ start(City, Street) ->
     spawn(street, init, [City, Street]).
 
 init(City, Street) ->
-    io:format("Hello, my name is ~s of ~s (~p).~n", [Street, City, self()]),
+    io:format("Street init: ~s (~p).~n", [Street, self()]),
     Addresses = list_addresses(City, Street),
     [address:start(City, Address) || Address <- Addresses].
 
