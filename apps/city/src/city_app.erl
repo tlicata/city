@@ -12,7 +12,8 @@
 start(_StartType, _StartArgs) ->
     Routes = [{'_', [{"/", cowboy_static, {file, "www/index.html"}},
                      {"/assets/[...]", cowboy_static, {dir, "www"}},
-                     {"/info", info, []}]}],
+                     {"/info", info, []},
+                     {"/live", live, []}]}],
     Dispatch = cowboy_router:compile(Routes),
     {ok, _} = cowboy:start_clear(http, [{port, 8080}], #{env => #{dispatch => Dispatch}}),
     city_sup:start_link().
