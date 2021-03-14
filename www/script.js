@@ -9,7 +9,7 @@ city.websocket = (function () {
 
     var send = function (msg) {
         if (!socket) {
-            socket = new WebSocket("ws://" + window.location.host +  window.location.pathname + "live");;
+            socket = new WebSocket("ws://" + window.location.host +  window.location.pathname + "live");
             socket.onopen = function (event) {
                 socket.send(msg);
             };

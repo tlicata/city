@@ -8,7 +8,26 @@ start(City, Street) ->
 init(City, Street) ->
     io:format("Street init: ~s (~p).~n", [Street, self()]),
     Addresses = list_addresses(City, Street),
-    [address:start(City, Address) || Address <- Addresses].
+    AddressPids = [address:start(City, Address) || Address <- Addresses],
+    loop(City, Street, AddressPids).
+
+loop(City, Street, AddressPids) ->
+    receive
+        {From, find, Addr} ->
+            case string:find(string:to_lower(Addr), string:to_lower(Street)) of
+                nomatch -> nil;
+                _Match  ->
+                    [Pid ! {From, find, Addr} || Pid <- AddressPids],
+                    receive
+                        {found, AddressPid} -> From ! {found, AddressPid}
+                    after
+                        500 -> nil
+                    end
+            end;
+        Any ->
+            io:format("~s received request it didn't understand: ~s~n", [Street, Any])
+    end,
+    loop(City, Street, AddressPids).
 
 list_addresses(City, Street) ->
     case db:get_addresses(City, Street) of
