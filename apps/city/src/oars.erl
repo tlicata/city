@@ -2,7 +2,7 @@
 
 -behavior(gen_server).
 
--export([base_url/1, address_url/2, street_list_url/1, street_url/2, street_url/3, from_url/1, encode_street/1]).
+-export([base_url/1, address_gis_url/2, address_url/2, street_list_url/1, street_url/2, street_url/3, from_url/1, encode_street/1]).
 
 -export([start_link/0]).
 %% gen_server callbacks
@@ -28,6 +28,8 @@ street_url(City, Street, Page) ->
     io_lib:format("~s/assessment/pcllist.asp?~s", [base_url(City), Params]).
 address_url(City, PropertyUrl) ->
     base_url(City) ++ "/assessment/" ++ PropertyUrl.
+address_gis_url(City, Swis) ->
+    "https://gis.niagaracounty.com/arcgis/rest/services/NC_GIS/NC_GIS/FeatureServer/5/query?f=json&where=OBJECTID_1%20%3D%20" ++ Swis ++ "&returnGeometry=true&spatialRel=esriSpatialRelIntersects&outFields=*&outSR=102100".
 
 from_url(Url) ->
     Response = gen_server:call(?MODULE, {request, Url}),

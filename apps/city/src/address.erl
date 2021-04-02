@@ -15,6 +15,10 @@ loop(City, Address) ->
             io:format("I am an Address. My URL is ~s~n", [url(City, Address)]);
         info ->
             io:format("I am an Address: ~s~n", [info(City, Address)]);
+        gis ->
+            io:format("I am an Address: ~s~n", [gis_url(City, Address)]);
+        swis ->
+            io:format("I am an Address: ~s~n", [get_swis(Address)]);
         {From, find, Addr} ->
             MyAddr = addr(City, Address),
             case string:find(string:to_lower(MyAddr), string:to_lower(Addr)) of
@@ -29,6 +33,9 @@ loop(City, Address) ->
 url(City, Address) ->
     oars:address_url(City, get_property_url(Address)).
 
+gis_url(City, Address) ->
+    oars:address_gis_url(City, get_swis(Address)).
+
 addr(_City, Address) ->
     {Addr, _Url, _Sbl, _LotSize, _PropType, _BuildingStyle, _YearBuilt, _Sqft, _BedsBathsFire} = Address,
     Addr.
@@ -38,6 +45,10 @@ info(_City, Address) ->
     io_lib:format("~s - ~s - ~p - ~s - ~s - ~s ~s.", [Addr, Sbl, parse_year(YearBuilt), BedsBathsFire, Sqft, LotSize, BuildingStyle]).
 
 get_property_url(Address) -> element(2, Address).
+
+get_swis(Address) ->
+    {match, [Swis]} = re:run(get_property_url(Address), "swis=([^&]*)", [{capture, all_but_first, list}]),
+    Swis.
 
 parse_year([]) -> 0;
 parse_year(Year) -> list_to_integer(Year).
