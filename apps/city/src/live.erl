@@ -10,8 +10,9 @@ websocket_init(State) ->
     {reply, {text, <<"Hello!">>}, State}.
 
 %% whenever a text, binary, ping or pong frame arrives from the client.
-websocket_handle(Frame = {text, _}, State) ->
-    {reply, Frame, State};
+websocket_handle(Frame = {text, Msg}, State) ->
+    Resp = gen_server:call(city, erlang:binary_to_existing_atom(Msg, utf8)),
+    {reply, {text, jsone:encode(Resp)}, State};
 websocket_handle(_Frame, State) ->
     {ok, State}.
 

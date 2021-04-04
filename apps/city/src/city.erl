@@ -24,7 +24,8 @@ init([City]) ->
     {ok, {City, []}}.
 
 handle_call(list_streets, _From, {City, _} = State) ->
-    {reply, string:join(street:list_streets(City), "\n"), State};
+    Streets = lists:map(fun erlang:list_to_binary/1, street:list_streets(City)),
+    {reply, Streets, State};
 handle_call(populate_streets, _From, {City, []}) ->
     Pids = [street:start(City, Street) || Street <- street:list_streets(City)],
     {reply, streets_populated, {City, Pids}};

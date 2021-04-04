@@ -17,7 +17,11 @@ city.websocket = (function () {
                 socket = null;
             };
             socket.onmessage = function (event) {
-                console.log("message received", event);
+                let data = event.data;
+                try {
+                    data = JSON.parse(event.data)
+                } catch (e) { }
+                console.log("message received", data);
             };
         } else {
             socket.send(msg);
