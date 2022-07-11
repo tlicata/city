@@ -36,6 +36,7 @@ Like SimCity, but for Lockport (or any town).
   + clojure + cljs? (shared code)
   + write the whole thing in javascript
     + nodejs deployments
+  + wasm
 
 - Model vs View
 - It's a map
