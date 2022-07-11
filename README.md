@@ -6,6 +6,7 @@ To get it running:
 
 1. Install Erlang.
     Perhaps with [kerl](https://github.com/kerl/kerl).
+    Kerl must be activated (e.g, `. kerl/22.2/activate`).
 2. Install Rebar3.
     Perhaps by following the instructions on [Adopting Erlang](https://adoptingerlang.org/docs/development/setup/).
 3. Run the project and open a shell:
