@@ -189,6 +189,8 @@ I wondered about how to install Cowboy under TODO's [[Webserver]].
 - Describe the project
 - Way to get in touch (email)
 - Link to source code
+** Deployment
+Terraform / Nomad / Docker / Podman / GitHub / Anisible ...
 * Tech debt
 ** Supervisor for request throttling
 In oars.erl, from_url wants to send a message to the one process handling http
